@@ -25,12 +25,16 @@ final class HardcodedAnalyzer implements AnalyzerInterface
             $finder->notPath($ignore);
         }
         foreach ($finder as $file) {
+            $relative = str_replace($projectPath . '/', '', str_replace('\\', '/', $file->getPathname()));
+            // Ignorar arquivos em config/ (valores são tipicamente env() ou defaults; evita falsos positivos)
+            if (str_starts_with($relative, 'config/')) {
+                continue;
+            }
             $content = file_get_contents($file->getPathname());
-            $relative = str_replace($projectPath . '/', '', $file->getPathname());
             $lines = explode("\n", $content);
             foreach (self::PATTERNS as $name => [$regex, $recommendation]) {
                 foreach ($lines as $num => $line) {
-                    // Ignorar linhas onde o valor vem de env() ou config() (padrão Laravel - ex: url em config/session)
+                    // Ignorar linhas onde o valor é env() ou config() (padrão Laravel)
                     if (str_contains($line, 'env(') || str_contains($line, 'config(')) {
                         continue;
                     }

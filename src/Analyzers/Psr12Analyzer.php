@@ -13,31 +13,37 @@ final class Psr12Analyzer implements AnalyzerInterface
     public function analyze(string $projectPath, Report $report, array $config): void
     {
         $ignorePaths = $config['ignore_paths'] ?? ['vendor/', 'node_modules/', 'storage/', 'bootstrap/cache/'];
-        $dirs = ['app/', 'config/', 'database/', 'routes/'];
-        $found = false;
+        $appPath = $projectPath . '/app';
+        if (!is_dir($appPath)) {
+            $report->add(new Diagnostic(
+                'quality',
+                'info',
+                'Diretório app/ não encontrado para análise PSR-12',
+                'O foco da análise de qualidade é estritamente o diretório app/.',
+                null,
+                null,
+                false
+            ));
+            return;
+        }
 
-        foreach ($dirs as $dir) {
-            $path = $projectPath . '/' . $dir;
-            if (!is_dir($path)) {
-                continue;
-            }
-            $finder = new Finder();
-            $finder->files()->in($path)->name('*.php');
-            foreach ($ignorePaths as $ignore) {
-                $finder->exclude($ignore);
-            }
-            foreach ($finder as $file) {
-                $found = true;
-                $this->checkFile($file->getPathname(), $report, $projectPath);
-            }
+        $finder = new Finder();
+        $finder->files()->in($appPath)->name('*.php');
+        foreach ($ignorePaths as $ignore) {
+            $finder->exclude($ignore);
+        }
+        $found = false;
+        foreach ($finder as $file) {
+            $found = true;
+            $this->checkFile($file->getPathname(), $report, $projectPath);
         }
 
         if (!$found) {
             $report->add(new Diagnostic(
                 'quality',
                 'info',
-                'Nenhum diretório PHP padrão (app, config, database, routes) encontrado para análise PSR-12',
-                'Adicione código PHP nos diretórios esperados ou configure ignore_paths.',
+                'Nenhum arquivo PHP encontrado em app/ para análise PSR-12',
+                'Adicione código em app/ ou ajuste ignore_paths na configuração.',
                 null,
                 null,
                 false
@@ -54,12 +60,8 @@ final class Psr12Analyzer implements AnalyzerInterface
         $relative = str_replace($projectPath . '/', '', $filePath);
         $relativeNormalized = str_replace('\\', '/', $relative);
 
-        // Ignorar strict_types em config, migrations e factories (filtro de ruído)
-        $skipStrictTypes = str_starts_with($relativeNormalized, 'config/')
-            || str_starts_with($relativeNormalized, 'database/migrations/')
-            || str_starts_with($relativeNormalized, 'database/factories/');
-
-        if (!$skipStrictTypes && !str_contains($content, 'declare(strict_types=1)') && !str_contains($content, 'declare (strict_types=1)')) {
+        // Escopo quality: apenas app/ (database/, config/, storage/, bootstrap/cache/ já excluídos pelo iterador)
+        if (!str_contains($content, 'declare(strict_types=1)') && !str_contains($content, 'declare (strict_types=1)')) {
             $report->add(new Diagnostic(
                 'quality',
                 'warning',
