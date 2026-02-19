@@ -24,7 +24,7 @@ jobs:
 
       - name: Install Laravel Doctor
         run: |
-          composer require --dev laravel-doctor/doctor
+          composer require --dev lucas-baggio/laravel-doctor
           # Ou clone e use local:
           # git clone ... laravel-doctor && cd laravel-doctor && composer install
 
