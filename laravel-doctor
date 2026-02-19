@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use LaravelDoctor\Commands\DoctorCommand;
+use LaravelDoctor\Config\ConfigLoader;
+use LaravelDoctor\Analyzers\AnalyzerRegistry;
+use Symfony\Component\Console\Application;
+
+$application = new Application('Laravel Doctor', '0.1');
+$application->add(new DoctorCommand(new ConfigLoader(), new AnalyzerRegistry()));
+$application->setDefaultCommand('doctor', true);
+$application->run();

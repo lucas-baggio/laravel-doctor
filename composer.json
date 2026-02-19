@@ -1,0 +1,36 @@
+{
+    "name": "laravel-doctor/doctor",
+    "description": "CLI agent-like tool that analyzes Laravel projects for architecture, quality, security, documentation and DX",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["laravel", "cli", "analysis", "quality", "security", "dx", "doctor"],
+    "homepage": "https://github.com/laravel-doctor/doctor",
+    "support": {
+        "issues": "https://github.com/laravel-doctor/doctor/issues",
+        "source": "https://github.com/laravel-doctor/doctor"
+    },
+    "authors": [{"name": "Laravel Doctor", "email": "doctor@laravel-doctor.dev"}],
+    "require": {
+        "php": "^8.1",
+        "symfony/console": "^6.4|^7.0",
+        "symfony/finder": "^6.4|^7.0",
+        "symfony/yaml": "^6.4|^7.0",
+        "nikic/php-parser": "^4.18|^5.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "phpstan/phpstan": "^1.10",
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {"LaravelDoctor\\": "src/"},
+        "files": ["src/helpers.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {"LaravelDoctor\\Tests\\": "tests/"}
+    },
+    "bin": ["laravel-doctor"],
+    "config": {"sort-packages": true, "allow-plugins": {}},
+    "minimum-stability": "stable"
+}

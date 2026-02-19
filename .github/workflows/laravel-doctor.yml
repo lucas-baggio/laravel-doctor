@@ -1,0 +1,40 @@
+name: Laravel Doctor
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  doctor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: json, mbstring
+          coverage: none
+
+      - name: Install project dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Install Laravel Doctor
+        run: |
+          composer require --dev laravel-doctor/doctor
+          # Ou clone e use local:
+          # git clone ... laravel-doctor && cd laravel-doctor && composer install
+
+      - name: Run Laravel Doctor
+        run: ./vendor/bin/laravel-doctor . --ci --min-score 70 --report report.json
+        continue-on-error: false
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: doctor-report
+          path: report.json
