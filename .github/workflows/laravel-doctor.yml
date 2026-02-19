@@ -22,14 +22,8 @@ jobs:
       - name: Install project dependencies
         run: composer install --no-interaction --prefer-dist
 
-      - name: Install Laravel Doctor
-        run: |
-          composer require --dev lucas-baggio/laravel-doctor
-          # Ou clone e use local:
-          # git clone ... laravel-doctor && cd laravel-doctor && composer install
-
       - name: Run Laravel Doctor
-        run: ./vendor/bin/laravel-doctor . --ci --min-score 70 --report report.json
+        run: ./laravel-doctor . --ci --min-score 70 --report report.json
         continue-on-error: false
 
       - name: Upload report
