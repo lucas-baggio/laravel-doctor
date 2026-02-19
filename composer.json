@@ -1,5 +1,5 @@
 {
-    "name": "laravel-doctor/doctor",
+    "name": "lucas-baggio/laravel-doctor",
     "description": "CLI agent-like tool that analyzes Laravel projects for architecture, quality, security, documentation and DX",
     "type": "library",
     "license": "MIT",
