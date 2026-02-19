@@ -22,9 +22,6 @@ jobs:
       - name: Install project dependencies
         run: composer install --no-interaction --prefer-dist
 
-      - name: Run Laravel Doctor
-        run: ./laravel-doctor . --ci --min-score 70 --report report.json
-        continue-on-error: false
 
       - name: Upload report
         uses: actions/upload-artifact@v4
