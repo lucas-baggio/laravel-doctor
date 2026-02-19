@@ -4,10 +4,10 @@
     "type": "library",
     "license": "MIT",
     "keywords": ["laravel", "cli", "analysis", "quality", "security", "dx", "doctor"],
-    "homepage": "https://github.com/laravel-doctor/doctor",
+    "homepage": "https://github.com/lucas-baggio/laravel-doctor",
     "support": {
-        "issues": "https://github.com/laravel-doctor/doctor/issues",
-        "source": "https://github.com/laravel-doctor/doctor"
+        "issues": "https://github.com/lucas-baggio/laravel-doctor/issues",
+        "source": "https://github.com/lucas-baggio/laravel-doctor"
     },
     "authors": [{"name": "Laravel Doctor", "email": "doctor@laravel-doctor.dev"}],
     "require": {

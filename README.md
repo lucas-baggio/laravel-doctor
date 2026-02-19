@@ -12,7 +12,7 @@ Inspirado no conceito do React Doctor, adaptado para o ecossistema Laravel/PHP.
 
 ```bash
 cd /caminho/do/seu/projeto/laravel
-composer require --dev laravel-doctor/doctor
+composer require --dev lucas-baggio/laravel-doctor
 ./vendor/bin/laravel-doctor .
 ```
 
@@ -28,7 +28,7 @@ composer install
 ### Global (opcional)
 
 ```bash
-composer global require laravel-doctor/doctor
+composer global require lucas-baggio/laravel-doctor
 # Garanta que ~/.composer/vendor/bin está no PATH
 laravel-doctor /caminho/para/projeto
 ```
@@ -211,7 +211,7 @@ jobs:
       - name: Install dependencies
         run: composer install --no-interaction
       - name: Install Laravel Doctor
-        run: composer require --dev laravel-doctor/doctor
+        run: composer require --dev lucas-baggio/laravel-doctor
       - name: Run Laravel Doctor
         run: ./vendor/bin/laravel-doctor . --ci --min-score 70 --report report.json
 ```
